@@ -91,8 +91,8 @@ The interesting observation here is that the NDCG@1 of CNN+FF model (in hybrid s
 In order to better analyze the behavior of CNN network, we visualize the input of $I_{TC}$ and the output of first convolution layer for the query \textit{"Give me a list of all trumpet players that were bandleaders."} and type \textit{"MusicalArtist"} in fig1.a and fig1.b respectively. As indicated in these figures the horizontal axis indicates top-50 words representing \textit{MusicalArtist} type sorted by tf.idf from left to right. in this figure, lighter entries indicate the larger value of similarity between a query term and the corresponding representing term. By comparing the output and output matrices, we find that the CNN model is able to remove noises i.e non-relevant terms to that specific type. for example the weights associated with query terms "\textit{give}" and "\textit{me}" are reduced significantly. According to this observation, CNN network outperforms the FF because it can extract local features (by local we means the feature associated with the context of query) while the FF network only uses the word2vec embedding of each word and that not consider it's context in the query. our proposed model is an economic model because we don't use any complicated features, but it can capture the relationship between the query and it's target type effectively.     
 
 \begin{figure*}
-	\includegraphics[width=\textwidth]{leaders_input.pdf}
-	\includegraphics[width=\textwidth]{leaders_out.pdf}
+	\includegraphics[width=\textwidth]{leaders_in_cropped.pdf}
+	\includegraphics[width=\textwidth]{leaders_conv1_cropped.pdf}
 	\caption{This is a figure caption}
 \end{figure*}
 
