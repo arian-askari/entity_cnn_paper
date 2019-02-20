@@ -3,15 +3,8 @@
 	\includegraphics[width=\textwidth]{leaders_in_cropped.pdf} \caption{input of type centric CNN+FF model}\label{conv1Input}
 	\includegraphics[width=\textwidth]{leaders_conv1_cropped.pdf}
 	\caption{output of type centric CNN+FF model after conv1 layer}\label{conv1Output}
+
 \end{figure*}
-
-Table X presents the evaluation results. We find that the feedforward network significantly (except Entity Centric for NDCG@5 measure) outperform the probabilistic model both in the entity and type centric approaches. significantly improvement is measured with $p$<0.001 using two-tailed pair-test. In addition, the CNN+FF architecture improves the feedforward network significantly by a large margin both in entity centric and type centric approaches. Another interesting observation here is that the hybrid model (i.e entity + type centric) can improve the NDCG@1 and NDCG@5 significantly.
-
-The interesting observation here is that the NDCG@1 of CNN+FF model (in hybrid setting) is not worse than the LTR model significantly. In other words, although, the LTR model utilizes several hand-crafted features, it can not outperform the CNN+FF propose model.
-
-In order to better analyze the behavior of CNN network, we visualize the input of $I_{TC}$ and the output of first convolution layer for the query \textit{"Give me a list of all trumpet players that were bandleaders."} and type \textit{"MusicalArtist"} in fig.\ref{conv1Input} and fig.\ref{conv1Output} respectively. As indicated in these figures the horizontal axis indicates top-50 words representing \textit{MusicalArtist} type sorted by tf.idf from left to right. in this figure, lighter entries indicate the larger value of similarity between a query term and the corresponding representing term. By comparing the output and output matrices, we find that the CNN model is able to remove noises i.e non-relevant terms to that specific type. for example the weights associated with query terms "\textit{give}" and "\textit{me}" are reduced significantly. According to this observation, CNN network outperforms the FF because it can extract local features (by local we means the feature associated with the context of query) while the FF network only uses the word2vec embedding of each word and that not consider it's context in the query. our proposed model is an economic model because we don't use any complicated features, but it can capture the relationship between the query and it's target type effectively.     
-
-
 
 
 % Please add the following required packages to your document preamble:
@@ -19,22 +12,33 @@ In order to better analyze the behavior of CNN network, we visualize the input o
 % Please add the following required packages to your document preamble:
 % \usepackage{multirow}
 \begin{table}[]
+	\label{results}
 	\caption{Target type detection performance.}
 	\scalebox{0.7}{
-	\begin{tabular}{c|c|c|c}
-		
-		Feature Group                               & Retrieval model                & NDCG@1   & NDCG@5   \\ \hline
-		Entity Centric                              & \multirow{2}{*}{Probabilistic} & 0.1490   & 0.3223   \\ 
-		Type Centric                                &                                & 0.2341   & 0.3780   \\ \hline
-		Entity Centric                              & \multirow{2}{*}{Feed Forward}  & 0.1886*  & 0.3289   \\ 
-		Type Centric                                &                                & 0.2786*  & 0.4011*  \\ \hline
-		Entity Centric                              & \multirow{2}{*}{CNN + FF}      & 0.3341** & 0.4586** \\ 
-		Type Centric                                &                                & 0.4034** & 0.5287** \\ \hline
-		Entity + Type                               & CNN + FF                       & 0.4575   & 0.5994   \\ \hline
-		Entity + Type + Knowledge Base + Type Label & LTR                            & 0.4842   & 0.6355   \\ \hline
-	\end{tabular}
+		\begin{tabular}{c|c|c|c}
+			
+			Feature Group                               & Retrieval model                & NDCG@1   & NDCG@5   \\ \hline
+			Entity Centric                              & \multirow{2}{*}{Probabilistic} & 0.1490   & 0.3223   \\ 
+			Type Centric                                &                                & 0.2341   & 0.3780   \\ \hline
+			Entity Centric                              & \multirow{2}{*}{Feed Forward}  & 0.1886*  & 0.3289   \\ 
+			Type Centric                                &                                & 0.2786*  & 0.4011*  \\ \hline
+			Entity Centric                              & \multirow{2}{*}{CNN + FF}      & 0.3341** & 0.4586** \\ 
+			Type Centric                                &                                & 0.4034** & 0.5287** \\ \hline
+			Entity + Type                               & CNN + FF                       & 0.4575   & 0.5994   \\ \hline
+			Entity + Type + Knowledge Base + Type Label & LTR                            & 0.4842   & 0.6355   \\ \hline
+		\end{tabular}
 	}
 \end{table}
+
+
+Table \ref{results} presents the evaluation results. We find that the feedforward network significantly (except Entity Centric for NDCG@5 measure) outperform the probabilistic model both in the entity and type centric approaches. significantly improvement is measured with $p$<0.001 using two-tailed pair-test. In addition, the CNN+FF architecture improves the feedforward network significantly by a large margin both in entity centric and type centric approaches. Another interesting observation here is that the hybrid model (i.e entity + type centric) can improve the NDCG@1 and NDCG@5 significantly.
+
+The interesting observation here is that the NDCG@1 of CNN+FF model (in hybrid setting) is not worse than the LTR model significantly. In other words, although, the LTR model utilizes several hand-crafted features, it can not outperform the CNN+FF propose model.
+
+In order to better analyze the behavior of CNN network, we visualize the input of $I_{TC}$ and the output of first convolution layer for the query \textit{"Give me a list of all trumpet players that were bandleaders."} and type \textit{"MusicalArtist"} in fig.\ref{conv1Input} and fig.\ref{conv1Output} respectively. As indicated in these figures the horizontal axis indicates top-50 words representing \textit{MusicalArtist} type sorted by tf.idf from left to right. in this figure, lighter entries indicate the larger value of similarity between a query term and the corresponding representing term. By comparing the output and output matrices, we find that the CNN model is able to remove noises i.e non-relevant terms to that specific type. for example the weights associated with query terms "\textit{give}" and "\textit{me}" are reduced significantly. According to this observation, CNN network outperforms the FF because it can extract local features (by local we means the feature associated with the context of query) while the FF network only uses the word2vec embedding of each word and that not consider it's context in the query. our proposed model is an economic model because we don't use any complicated features, but it can capture the relationship between the query and it's target type effectively.     
+
+
+
 
 
 \begin{figure}
