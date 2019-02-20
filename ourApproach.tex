@@ -30,8 +30,9 @@ Similar to the translation, rotation and scale invariance of images in CNN, CNN 
 
 Finally, following the idea of combining entity centric and type centric models\cite{Balog:2011:QME:2037661.2037667,Garigliotti:2017:TTI:3077136.3080659}, we propose the architecture represented in fig.\ref{proposeModel}. This architecture is the combination of the above mentioned CNN networks.
 
+In this figure, $I_{TC}$ is the input of type centric part of network with size of $(14\times50)$ and $I_{EC}$ is the input matrice of entity centric part with size of $(14\times400)$ ($14$ is the maximum size of the queries). The number of filters and their size is written under each layer. The output node predict target type identification score between zero and seven.
 
 \begin{figure*}
-	\includegraphics[width=0.9\textwidth]{model_vis1.pdf} \caption{Architecture of the convolutional neural network model. The type-centric model (top) and the bottom-centric model (bottom) are combined in a single network.}
+	\includegraphics[width=0.9\textwidth]{1111modelFinalVisualize.pdf} \caption{Architecture of the convolutional neural network model. The type-centric model (top) and the bottom-centric model (bottom) are combined in a single network.}
 	\label{proposeModel}
 \end{figure*}
