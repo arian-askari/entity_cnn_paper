@@ -1,0 +1,15 @@
+\section{Introduction}\label{introduction}
+\par
+A large portion of queries in web search is related to entity retrieval, each entity has a specific type which can be mapped to hierarchical structure i.e taxonomy. General knowledge bases such as Wikipedia provide such taxonomies. In recent years, commercial search engines answer the entity bearing queries using entity cards \cite{Pound:2010:AOR:1772690.1772769}. Entity cards summarize the information need of the user and he/she can find the answer in the search page. It can enhance the user experience and reduce search session time. Accordingly, research in entity retrieval has been an important topic in the IR community in recent years.
+\par
+In order to enhance the quality of entity retrieval, several solutions e.g target type identification \cite{Garigliotti:2017:TTI:3077136.3080659}, attribute detection \cite{DargahiNobari:2018:QUV:3269206.3269245} has been proposed. In target type identification problem,  given a query, the goal is to identify the type of relevant result with respect to a given ontology. Previous research indicates that automatic target type identification can improve the precision of retrieval without complicating the user interface (i.e single search box). Target identification can enhance the performance of retrieval in both web search and product search \cite{Balog:2011:QME:2037661.2037667, Kaptein:2013:ECS:2405838.2405908, pehcevski2010entity}.
+\par
+The previous research for type retrieval problem, can be divided into two categories i.e probabilistic and learning to rank (LTR) models. Although the LTR model has better performance in comparison with the probabilistic model but the LTR model needs several hand-crafted domain-wise features which restrict the usage of such model in cross domains.
+
+Here in this paper, our motivation is to provide a suitable neural network structure which can learn important features in automatic type identification problem.
+
+Our observation in this research indicates that a simple feed forward neural network can not solve the problem efficiently. Therefore in this paper, we propose a convolution neural network to capture important features of this problem. 
+
+According to previous research, we use type centric (TC) and entity centric (EC) approaches to propose the architecture of the neural network. This research indicates that each of these approaches captures a different aspect of query and type matching and therefore a single model which combine these models has better performance.
+
+The main contribution of this paper is to use a CNN network to capture the importancy of words (i.e features) in the context of the given query, both in entity and type centric models. the proposed model outperforms the probabilistic model by high margin and works slightly worse than the LTR although without any hand-crafted features.
