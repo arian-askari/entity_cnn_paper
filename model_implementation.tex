@@ -1,8 +1,10 @@
-\section{Model Implementation Details}
+\section{Experimental setup.}
 This section describes the configuration of the FF and CNN Models.
 
-\textbf{Model Training} is performed using 5 fold \textit{nested cross-validation} \cite{cawley2010over} where model hyperparameters are selected for each test fold based on standard CV experiments on the training folds.
+\textbf{Model Training and Evaluation.} The training and evaluation was performed using 5 fold \textit{nested cross validation} \cite{cawley2010over}, where model hyper parameters were selected for each test fold based on standard cross validation experiments on the training folds.
 
-\textbf{Model Optimization} use the Adam optimizer with batch size 128, learning rate 0.0001. We implemented our model using Keras \cite{chollet2015keras}.
+\textbf{Model Optimization.} We used the Adam optimizer with batch size 128, learning rate 0.0001. We implemented our model using Keras \cite{chollet2015keras}.
 
-\textbf{Model Structure} model structure of CNN is depicted in fig.\ref{proposeModel} The feedforward model of type centric approach is a three-layer network with [1000, 1000, 5000] neurons. The activation function is relu. the dropout parameter is selected to be 0.3. The feedforward model of entity centric approach is a one-layer network with 1000 neurons. The activation function is Relu. the dropout parameter is selected to be 0.
+\textbf{Model Structure.} The architecture of our CNN is depicted in Figure~\ref{proposeModel}. The feedforward model of type centric approach is a three-layer network with [1000, 1000, 5000] neurons. The activation function is ReLU and the dropout parameter is selected to be 0.3. The feedforward model of entity centric approach is a one-layer network with 1000 neurons, with ReLU as activation function and dropout of 0. All these parameters are obtained based on nested cross validation practice.
+
+\textbf{Test collection. } We use the standard DBpedia-Entity v2 test collection for target type identification~ \cite{Garigliotti:2017:TTI:3077136.3080659}. In this test collection, for a given query there is a pool of target entity types. For each target type in the pool, there is a label between zero (non-relevant) and seven (the most relevant), which indicates the relevance degree of the query and the target type.

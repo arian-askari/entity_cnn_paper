@@ -1,11 +1,15 @@
 \section{Our Approach}
-Our motivation in this paper is to propose a method with minimal feature engineering effort to solve target type identification. For this task, we use the test collection introduced in \cite{Garigliotti:2017:TTI:3077136.3080659}. In this test collection, for a given query there is a pool of target entity types. for each target type in the pool, there is a label between zero (non-relevant) and seven (the most relevant) which indicates the relevance degree of the query and that target type. Similar to the proposed LTR approach in \cite{Garigliotti:2017:TTI:3077136.3080659} we cast the type identification problem into regression problem i.e for a given pair of query and type the goal is to predict the relevancy score.
+Our objective in this paper is to propose a method the target type identification task that requires minimal effort for feature engineering.  We cast the type identification problem into regression problem and predict the relevance score of a type, given a query-entity pair.
+Following the idea of TC and EC methods introduced in sections \ref{TC} and \ref{EC}, we define two type-centric $I_{TC}$ and entity-centric $I_{EC}$ matrices.  In the following we explain each of these matrices.%that models word level similarities via word embeddings. 
 
-Following the idea of TC and EC method introduced in section \ref{TC} and \ref{EC} we defined two matrices i.e $I_{TC}$ and $I_{EC}$ that models word level similarities via word embeddings. 
+%===================================
+%For this task, we use the test collection introduced in \cite{Garigliotti:2017:TTI:3077136.3080659}. In this test collection, for a given query there is a pool of target entity types. for each target type in the pool, there is a label between zero (non-relevant) and seven (the most relevant) which indicates the relevance degree of the query and that target type.
+%=================================== 
+%Following the idea of TC and EC method introduced in section \ref{TC} and \ref{EC} we defined two matrices i.e $I_{TC}$ and $I_{EC}$ that models word level similarities via word embeddings. 
+%
+\boldsymbol{$I_{TC}$} \textbf{matrix:} For a given query-type pair $(q,t)$, we first extract top-50 words representing type $t$. In order to extract these words, we concatenate all abstracts of entities associate with that type and make a pseudo document for each type. We calculate the tf.idf according to these pseudo documents. The words are sorted according to the tf.idf score. We then build $I_{TC}$ matrix as follows. Each row of matrix indicates a query term (e.g $q_i$) of $q$ (in order of occurrence) and each column of the matrix indicates a representing word (e.g $w_j$) of that type (sorted by tf.idf score). The entry $I_{TC}[i,j] = cos(\vec{q_i}, \vec{w_j})$ where $\vec{q_i}$ and $\vec{w_j}$ indicates the pre-trained word embedding vectors of \cite{Mikolov:2013:DRW:2999792.2999959}.
 
-\boldsymbol{$I_{TC}:$} For a given query-type pair $(q,t)$, we first extract top-50 words representing type $t$. In order to extract these words, we concatenate all abstracts of entities associate with that type and make a pseudo document for each type. We calculate the tf.idf according to these pseudo documents. The words are sorted according to the tf.idf score. We then build $I_{TC}$ matrix as follows. Each row of matrix indicates a query term (e.g $q_i$) of $q$ (in order of occurrence) and each column of the matrix indicates a representing word (e.g $w_j$) of that type (sorted by tf.idf score). The entry $I_{TC}[i,j] = cos(\vec{q_i}, \vec{w_j})$ where $\vec{q_i}$ and $\vec{w_j}$ indicates the pre-trained word embedding vectors of \cite{Mikolov:2013:DRW:2999792.2999959}.
-
-\boldsymbol{$I_{EC}:$} For a given query-type pair $(q,t)$, we first used a language retrieval model to retrieve top-20 ranked entities (i.e $e_1,\cdots, e_{20}$) for query $q$.
+\boldsymbol{$I_{EC}$} \textbf{matrix:} For a given query-type pair $(q,t)$, we first used a language retrieval model to retrieve top-20 ranked entities (i.e $e_1,\cdots, e_{20}$) for query $q$.
 we treat the abstract of each entity as a document and use language modeling with Dirichlet smoothing (k=2000) to retrieve these entities.
 
 $I_{EC}$ is made by concatenation of twenty matrices as $I_{EC} = [I_{E_1C},\cdots, I_{E_{20}C}]$ where $I_{E_iC}$ is a matrix indicating the relevancy of query $q$ and entity $e_i$ considering the type $t$. Each entry of matrix $I_{E_iC}$ is computed as follows:
@@ -25,7 +29,9 @@ In our first attempt to solve the problem we use two feedforward neural networks
 Similar to the translation, rotation and scale invariance of images in CNN, CNN is able to learn the local features from words or phrases in different places of text \cite{wang2016combination}. As a result, in our second attempt, we present a jointed convolutional neural network and feedforward (FF) architecture that takes the local features extracted by CNN as input to FF for target type identification problem. We try this architecture twice with $I_{EC}$ and $I_{TC}$ as the inputs of the CNN models, respectively.
 
 Finally, following the idea of combining entity centric and type centric models\cite{Balog:2011:QME:2037661.2037667,Garigliotti:2017:TTI:3077136.3080659}, we propose the architecture represented in fig.\ref{proposeModel}. This architecture is the combination of the above mentioned CNN networks.
-In this figure, $I_{TC}$ is the input of type centric part of network with size of $(14\times50)$ and $I_{EC}$ is the input matrice of entity centric part with size of $(14\times400)$ ($14$ is the maximum size of the queries). The number of filters and their size is written under each layer. The output node predict target type identification score between zero and seven.
+
+
 \begin{figure*}
-	\includegraphics[width=\textwidth]{1111modelFinalVisualize.pdf} \caption{propose model structure}\label{proposeModel}
+	\includegraphics[width=0.9\textwidth]{model_vis1.pdf} \caption{Architecture of the convolutional neural network model. The type-centric model (top) and the bottom-centric model (bottom) are combined in a single network.}
+	\label{proposeModel}
 \end{figure*}

@@ -1,34 +1,35 @@
-\section{Problem Spec and Related Work}
-In this section, we first define the problem of Target Identification problem and then we propose the state-of-the-art approaches for solving this problem.
+\section{Background}
+In this section, we first define the task of \emph{target type Identification} and then propose the state-of-the-art approaches to address this task.
 
 \subsection{Problem Definition}
-Here the objective is to assign target types to queries from a type taxonomy. more formally, we borrow the definition of the task from \cite{Garigliotti:2017:TTI:3077136.3080659}:
+Here, the objective is to assign target entity types, from a type taxonomy, to a query. We borrow the formal definition of the task from \citet{Garigliotti:2017:TTI:3077136.3080659}:
 
-"Find the main target types of a query, from a type taxonomy, such that (i) these correspond to the most specific category of entities that are relevant to the query, and (ii) main types cannot be on the same path in the taxonomy. If no matching type can be found in the taxonomy then the query is assigned a special NIL-type."
+``Find the main target types of a query, from a type taxonomy, such that (i) these correspond to the most specific category of entities that are relevant to the query, and (ii) main types cannot be on the same path in the taxonomy. If no matching type can be found in the taxonomy then the query is assigned a special NIL-type.''
 
-\subsection{Entity Centric (EC)}\label{EC}
-The idea of this method is to rank entities based on their relevance to the query, then according to the top-k ranked entities, the target type of query will be determined. This model is similar to late fusion design pattern for object retrieval \cite{zhang2017design} in which the relevance scores of each type is determined as follows:
+\subsection{Entity-Centric (EC)}\label{EC}
+The idea of this method is to rank entities based on their relevance to the query, and then determine the target type of query based on top-k ranked entities. Similar to the late fusion design pattern for ranking objects~\cite{zhang2017design}, the relevance score of each entity type is determined as:
 \begin{equation}
-score_{EC}(t,q) = \sum_{e\in R_K(q)}{score(q,e)\times W(e,t)}
+score_{EC}(t,q) = \sum_{e\in R_K(q)}{score(q,e)\times W(e,t),}
 \end{equation}
-Where $R_k$ is the set of top-k ranked entities for query $q$ and $score(q,e)$ indicates retrieval score of entity $e$ based on language model with Dirichlet smoothing (k=2000). The entity-type association weight, $W(e,t)$ is set uniformly across entities that are typed with $t$, i.e., $W(e,t)=1/\sum_{e^\prime}{\mathbbm{1}(e^\prime,t)}$, and is 0 otherwise.
+Where $R_k$ is the set of top-k ranked entities for query $q$ and $score(q,e)$ indicates retrieval score of entity $e$ based on language model with Dirichlet smoothing (k=2000). The entity-type association weight, $W(e,t)$ is set uniformly across entities that are typed with $t$; i.e., $W(e,t)=1/\sum_{e^\prime}{\mathbbm{1}(e^\prime,t)}$, and is 0 otherwise.
 $\mathbbm{1}(e,t)$ is an indicator function that returns $1$ if $e$ is typed with $t$, otherwise returns $0$.
 
 
-\subsection{Type Centric (TC)} \label{TC}
+\subsection{Type-Centric (TC)} \label{TC}
 
-In this method by aggregating descriptions of entities of a specific type, a pseudo document is generated for that type and these documents will be used in ranking. This method is referred to as the early fusion design pattern for object retrieval in \cite{zhang2017design}. The pseudo frequency of a word for a type is defined as 
+This method aggregates entities of a specific type and generates a pseudo document that represents that entity. These pseudo documents are further used to rank entity types. This method is based on the early fusion design pattern for object retrieval~\cite{zhang2017design}. The pseudo frequency of a word for a type is defined as 
 $\tilde{f}(w,t) = \sum_{e}{f(w,e)\times w(e,t)}$, where $f(w,e)$ is the frequency of the term $w$ in (the description of) entity $e$ and $w(e,t)$, as before, denotes the entity-type association weight. The relevance score of a type for a given query $q$ is then calculated as the sum of the individual query term scores:
 \begin{equation}
-score_{TC}(t,q) = \sum_{i=1}^{|q|}{score_{LM}(q_i,\tilde{f})}
+score_{TC}(t,q) = \sum_{i=1}^{|q|}{score_{LM}(q_i,\tilde{f}),}
 \end{equation}
 where $score_{LM}(q_i,\tilde{f})$ is the retrieval score of pseudo document of $t$. We use the same parameter settings as in \ref{EC}.
 
 \subsection{Learning to Rank (LTR)}
-The entity and type centric models capture different aspect of the task and the learning to rank approach proposed in \cite{Garigliotti:2017:TTI:3077136.3080659} combined these two models in a single framework. In this approach three main feature categories have been used to combine several ranking signals as follows:
-\begin{enumerate}
-	\item \textit{TC and EC features}: this category includes five features which measure the relevancy of query and type based on EC and TC approaches.
-	\item \textit{Knowledge base features}: this category includes four features which indicate the properties of the target type in taxonomy (e.g depth, number of children type, etc.).
-	\item \textit{Type label features}: this category includes eight features which capture the properties of target type (e.g length of type $t$ in words, etc.)
+%The entity- and type-centric models capture different aspect of the task and 
+The learning to rank approach proposed in~\cite{Garigliotti:2017:TTI:3077136.3080659} combined these two entity- and type-centric models in a single framework. In this approach, three main categories of features have been used to combine several ranking signals:\begin{enumerate}
+	\item \textit{TC and EC features}: this category includes five features which measure the relevance of query and type using EC and TC models.
+	\item \textit{Knowledge base features}: this category includes four features which indicate the properties of the target type in a taxonomy (e.g., depth and number of children types).
+	\item \textit{Type label features}: this category includes eight features which capture the properties of target type (e.g., length of type $t$ in words).
 \end{enumerate}
-They employed a random forest algorithm for regression as the supervised ranking method. Their proposed LTR model outperforms EC and TC methods by a remarkable margin but the main problem with this approach is that the features are related to the domain of problem and it can not be easily generalize to other domains such as e-commerce search engines.
+
+\citet{Garigliotti:2017:TTI:3077136.3080659} employed the Random Forest algorithm for regression as a point-wise ranking method. Their proposed LTR model outperforms EC and TC methods by a remarkable margin but the main shortcoming of this approach building hand-crafted features, where some of them can not be easily used for other knowledge bases such as Wikipedia.
