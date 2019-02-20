@@ -1,21 +1,9 @@
 \section{Result And Discussion}
-\begin{figure*}
-	\includegraphics[width=\textwidth]{leaders_in_cropped.pdf} \caption{input of type centric CNN+FF model}\label{conv1Input}
-	\includegraphics[width=\textwidth]{leaders_conv1_cropped.pdf}
-	\caption{output of type centric CNN+FF model after conv1 layer}\label{conv1Output}
 
-\end{figure*}
-
-
-% Please add the following required packages to your document preamble:
-% \usepackage{multirow}
-% Please add the following required packages to your document preamble:
-% \usepackage{multirow}
 \begin{table}[]
-	\label{results}
 	\caption{Target type detection performance.}
 	\scalebox{0.7}{
-		\begin{tabular}{c|c|c|c}
+		\begin{tabular}{c|c|c|c}\label{results}
 			
 			Feature Group                               & Retrieval model                & NDCG@1   & NDCG@5   \\ \hline
 			Entity Centric                              & \multirow{2}{*}{Probabilistic} & 0.1490   & 0.3223   \\ 
@@ -29,6 +17,14 @@
 		\end{tabular}
 	}
 \end{table}
+
+\begin{figure*}
+	\includegraphics[width=\textwidth]{leaders_in_cropped.pdf} \caption{input of type centric CNN+FF model}\label{conv1Input}
+	\includegraphics[width=\textwidth]{leaders_conv1_cropped.pdf}
+	\caption{output of type centric CNN+FF model after conv1 layer}\label{conv1Output}
+
+\end{figure*}
+
 
 
 Table \ref{results} presents the evaluation results. We find that the feedforward network significantly (except Entity Centric for NDCG@5 measure) outperform the probabilistic model both in the entity and type centric approaches. significantly improvement is measured with $p$<0.001 using two-tailed pair-test. In addition, the CNN+FF architecture improves the feedforward network significantly by a large margin both in entity centric and type centric approaches. Another interesting observation here is that the hybrid model (i.e entity + type centric) can improve the NDCG@1 and NDCG@5 significantly.
