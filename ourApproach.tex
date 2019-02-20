@@ -25,6 +25,7 @@ In our first attempt to solve the problem we use two feedforward neural networks
 Similar to the translation, rotation and scale invariance of images in CNN, CNN is able to learn the local features from words or phrases in different places of text \cite{wang2016combination}. As a result, in our second attempt, we present a jointed convolutional neural network and feedforward (FF) architecture that takes the local features extracted by CNN as input to FF for target type identification problem. We try this architecture twice with $I_{EC}$ and $I_{TC}$ as the inputs of the CNN models, respectively.
 
 Finally, following the idea of combining entity centric and type centric models\cite{Balog:2011:QME:2037661.2037667,Garigliotti:2017:TTI:3077136.3080659}, we propose the architecture represented in fig.\ref{proposeModel}. This architecture is the combination of the above mentioned CNN networks.
+In this figure, $I_{TC}$ is the input of type centric part of network with size of $(14\times50)$ and $I_{EC}$ is the input matrice of entity centric part with size of $(14\times400)$ ($14$ is the maximum size of the queries). The number of filters and their size is written under each layer. The output node predict target type identification score between zero and seven.
 \begin{figure*}
-	\includegraphics[width=\textwidth]{model_vis1.pdf} \caption{propose model structure}\label{proposeModel}
+	\includegraphics[width=\textwidth]{1111modelFinalVisualize.pdf} \caption{propose model structure}\label{proposeModel}
 \end{figure*}
