@@ -16,10 +16,10 @@ cos(q_m,w_{i,n}) \times W(e,t) &\quad\text{type(e)} \cap t \neq \phi \\
 Where $q_m$ is the $m^{\text{\tiny th}}$ query term and $w_{i,n}$ ($1\leq n \leq20$) indicates the $n^{\text{\tiny th}}$ word (sorted on tf.idf score) representing the entity $e_i$. $W(e,t)$ is the function  described in section \ref{EC} and $type(e)$ is the set of types associate with entity $e$.
 
 
-In our first attempt to solve the problem we use two feedforward neural networks. the input of these networks are $I_{TC}$ and $I_{EC}$, respectively. the number of layers and neurons are indicated in table X.
+In our first attempt to solve the problem we use two feedforward neural networks. the input of these networks are $I_{TC}$ and $I_{EC}$, respectively.
 
 
-Similar to the translation, rotation and scale invariance of images in CNN, CNN is able to learn the local features from words or phrases in different places of text \cite{wang2016combination}. As a result, in our second attempt, we present a jointed convolutional neural network and feedforward (FF) architecture that takes the local features extracted by CNN as input to FF for target type identification problem. We try this architecture twice with $I_{EC}$ and $I_{TC}$ as the inputs of the CNN models, respectively. The detail of each network is indicated in table X.
+Similar to the translation, rotation and scale invariance of images in CNN, CNN is able to learn the local features from words or phrases in different places of text \cite{wang2016combination}. As a result, in our second attempt, we present a jointed convolutional neural network and feedforward (FF) architecture that takes the local features extracted by CNN as input to FF for target type identification problem. We try this architecture twice with $I_{EC}$ and $I_{TC}$ as the inputs of the CNN models, respectively.
 
 Finally, following the idea of combining entity centric and type centric models\cite{Balog:2011:QME:2037661.2037667,Garigliotti:2017:TTI:3077136.3080659}, we propose the architecture represented in fig.\ref{proposeModel}. This architecture is the combination of the above mentioned CNN+FF networks.
 \begin{figure*}

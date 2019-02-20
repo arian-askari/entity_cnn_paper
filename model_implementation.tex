@@ -1,7 +1,7 @@
 \section{Model Implementation Details}
 This section describes the configuration of the FF and CNN+FF Models.
 
-\textbf{Model Training} is performed using 5 fold\textit{nested cross-validation} \cite{cawley2010over} where model hyperparameters are selected for each test fold based on standard CV experiments on the training folds. The hyperparameters of the models are indicated in table x.
+\textbf{Model Training} is performed using 5 fold\textit{nested cross-validation} \cite{cawley2010over} where model hyperparameters are selected for each test fold based on standard CV experiments on the training folds.
 
 \textbf{Model Optimization} use the adam optimizer with batch size 128, learning rate 0.0001. We implemented our model using Keras \cite{chollet2015keras}.
 
