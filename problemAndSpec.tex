@@ -15,6 +15,7 @@ Where $R_k$ is the set of top-k ranked entities for query $q$ and $score(q,e)$ i
 $\mathbbm{1}(e,t)$ is an indicator function that returns $1$ if $e$ is typed with $t$, otherwise returns $0$.
 
 \subsection{Type Centric (TC)}
+
 In this method by aggregating descriptions of entities of a specific type, a pseudo document is generated for that type and these documents will be use in ranking. This method is refer to as the early fusion design pattern for object retrieval in \cite{zhang2017design}. The pseudo frequency of a word for a type is defined as 
 $\tilde{f}(w,t) = \sum_{e}{f(w,e)\times w(e,t)}$, where $f(w,e)$ is the frequency of the term $w$ in (the description of) entity $e$ and $w(e,t)$, as before, denotes the entity-type association weight. The relevance score of a type for a given query $q$ is then calculated as the sum of the individual query term scores:
 \begin{equation}
