@@ -2,7 +2,7 @@
 In this section, we first define the problem of Target Identification problem and then we propose the state-of-the-art approaches for solving this problem.
 
 \subsection{Problem Definition}
-Here the objective is to assign target types to queries from a type taxonomy. more formally we borrow the definition of the task from \cite{Garigliotti:2017:TTI:3077136.3080659}:
+Here the objective is to assign target types to queries from a type taxonomy. more formally, we borrow the definition of the task from \cite{Garigliotti:2017:TTI:3077136.3080659}:
 
 "Find the main target types of a query, from a type taxonomy, such that (i) these correspond to the most specific category of entities that are relevant to the query, and (ii) main types cannot be on the same path in the taxonomy. If no matching type can be found in the taxonomy then the query is assigned a special NIL-type."
 
@@ -15,9 +15,9 @@ Where $R_k$ is the set of top-k ranked entities for query $q$ and $score(q,e)$ i
 $\mathbbm{1}(e,t)$ is an indicator function that returns $1$ if $e$ is typed with $t$, otherwise returns $0$.
 
 
-\subsection{Type Centric (TC)}
+\subsection{Type Centric (TC)} \label{TC}
 
-In this method by aggregating descriptions of entities of a specific type, a pseudo document is generated for that type and these documents will be use in ranking. This method is refer to as the early fusion design pattern for object retrieval in \cite{zhang2017design}. The pseudo frequency of a word for a type is defined as 
+In this method by aggregating descriptions of entities of a specific type, a pseudo document is generated for that type and these documents will be used in ranking. This method is referred to as the early fusion design pattern for object retrieval in \cite{zhang2017design}. The pseudo frequency of a word for a type is defined as 
 $\tilde{f}(w,t) = \sum_{e}{f(w,e)\times w(e,t)}$, where $f(w,e)$ is the frequency of the term $w$ in (the description of) entity $e$ and $w(e,t)$, as before, denotes the entity-type association weight. The relevance score of a type for a given query $q$ is then calculated as the sum of the individual query term scores:
 \begin{equation}
 score_{TC}(t,q) = \sum_{i=1}^{|q|}{score_{LM}(q_i,\tilde{f})}
@@ -31,4 +31,4 @@ The entity and type centric models capture different aspect of the task and the 
 	\item \textit{Knowledge base features}: this category includes four features which indicate the properties of the target type in taxonomy (e.g depth, number of children type, etc.).
 	\item \textit{Type label features}: this category includes eight features which capture the properties of target type (e.g length of type $t$ in words, etc.)
 \end{enumerate}
-They employed a random forest algorithm for regression as the supervised ranking method. their propose LTR model outperforms EC and TC methods by a remarkable margin but the main problem with this approach is that the features are related to the domain of problem and it can not be easily generalize to other domains such as e-commerce search engines.
+They employed a random forest algorithm for regression as the supervised ranking method. Their proposed LTR model outperforms EC and TC methods by a remarkable margin but the main problem with this approach is that the features are related to the domain of problem and it can not be easily generalize to other domains such as e-commerce search engines.
