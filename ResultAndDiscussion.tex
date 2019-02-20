@@ -1,7 +1,7 @@
 \section{Result And Discussion}
 
 \begin{table}[]
-	\caption{Target type detection performance.}
+	\caption{Target type detection performance. Significant improvements over probabilistic, feedforward models are marked with *, ** respectively.}
 	\scalebox{0.7}{
 		\begin{tabular}{c|c|c|c}\label{results}
 			
@@ -10,10 +10,10 @@
 			Type Centric                                &                                & 0.2341   & 0.3780   \\ \hline
 			Entity Centric                              & \multirow{2}{*}{FeedForward}  & 0.1886*  & 0.3289   \\ 
 			Type Centric                                &                                & 0.2786*  & 0.4011*  \\ \hline
-			Entity Centric                              & \multirow{2}{*}{CNN}      & 0.3341** & 0.4586** \\ 
-			Type Centric                                &                                & 0.4034** & 0.5287** \\ \hline
-			Entity + Type                               & CNN                       & 0.4575   & 0.5994   \\ \hline
-			Entity + Type + Knowledge Base + Type Label & LTR                            & 0.4842   & 0.6355   \\ \hline
+			Entity Centric                              & \multirow{2}{*}{CNN}      & 0.3341*** & 0.4586*** \\ 
+			Type Centric                                &                                & 0.4034*** & 0.5287*** \\ \hline
+			Entity + Type                               & CNN                       & 0.4575***   & 0.5994***   \\ \hline
+			Entity + Type + Knowledge Base + Type Label & LTR                            & 0.4842***   & 0.6355***   \\ \hline
 		\end{tabular}
 	}
 \end{table}
