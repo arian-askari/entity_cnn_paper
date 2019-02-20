@@ -1,8 +1,8 @@
 \section{Introduction}\label{introduction}
 \par
-A large portion of queries in web search is related to entity retrieval, each entity has a specific type which can be mapped to hierarchical structure i.e taxonomy. General knowledge bases such as Wikipedia provide such taxonomies. In recent years, commercial search engines answer the entity bearing queries using entity cards \cite{}. Entity cards summarize the information need of the user and he/she can find the answer in the search page. It can enhance the user experience and reduce search session time. Accordingly, research in entity retrieval has been an important topic in the IR community in recent years.
+A large portion of queries in web search is related to entity retrieval, each entity has a specific type which can be mapped to hierarchical structure i.e taxonomy. General knowledge bases such as Wikipedia provide such taxonomies. In recent years, commercial search engines answer the entity bearing queries using entity cards \cite{Pound:2010:AOR:1772690.1772769}. Entity cards summarize the information need of the user and he/she can find the answer in the search page. It can enhance the user experience and reduce search session time. Accordingly, research in entity retrieval has been an important topic in the IR community in recent years.
 \par
-In order to enhance the quality of entity retrieval, several solutions e.g target type identification \cite{}, attribute detection \cite{} has been proposed. In target type identification problem,  given a query, the goal is to identify the type of relevant result with respect to a given ontology. Previous research indicates that automatic target type identification can improve the precision of retrieval without complicating the user interface (i.e single search box). Target identification can enhance the performance of retrieval in both web search and product search \cite{}.
+In order to enhance the quality of entity retrieval, several solutions e.g target type identification \cite{Garigliotti:2017:TTI:3077136.3080659}, attribute detection \cite{DargahiNobari:2018:QUV:3269206.3269245} has been proposed. In target type identification problem,  given a query, the goal is to identify the type of relevant result with respect to a given ontology. Previous research indicates that automatic target type identification can improve the precision of retrieval without complicating the user interface (i.e single search box). Target identification can enhance the performance of retrieval in both web search and product search \cite{Balog:2011:QME:2037661.2037667, Kaptein:2013:ECS:2405838.2405908, pehcevski2010entity}.
 \par
 The previous research for type retrieval problem, can be divided into two categories i.e probabilistic and learning to rank (LTR) models. Although the LTR model has better performance in comparison with the probabilistic model but the LTR model needs several hand-crafted domain-wise features which restrict the usage of such model in cross domains.
 
@@ -18,12 +18,12 @@ The main contribution of this paper is to use a CNN network to capture the impor
 In this section, we first define the problem of Target Identification problem and then we propose the state-of-the-art approaches for solving this problem.
 
 \subsection{Problem Definition}
-Here the objective is to assign target types to queries from a type taxonomy. more formally we borrow the definition of the task from \cite{} :
+Here the objective is to assign target types to queries from a type taxonomy. more formally we borrow the definition of the task from \cite{Garigliotti:2017:TTI:3077136.3080659}:
 
 "Find the main target types of a query, from a type taxonomy, such that (i) these correspond to the most specific category of entities that are relevant to the query, and (ii) main types cannot be on the same path in the taxonomy. If no matching type can be found in the taxonomy then the query is assigned a special NIL-type."
 
 \subsection{Entity Centric (EC)}\label{EC}
-The idea of this method is to rank entities based on their relevance to the query, then according to the top-k ranked entities, the target type of query will be determined. This model is similar to late fusion design pattern for object retrieval \cite{22Hasibi} in which the relevance scores of each type is determined as follows:
+The idea of this method is to rank entities based on their relevance to the query, then according to the top-k ranked entities, the target type of query will be determined. This model is similar to late fusion design pattern for object retrieval \cite{zhang2017design} in which the relevance scores of each type is determined as follows:
 \begin{equation}
 score_{EC}(t,q) = \sum_{e\in R_K(q)}{score(q,e)\times W(e,t)}
 \end{equation}
@@ -31,7 +31,7 @@ Where $R_k$ is the set of top-k ranked entities for query $q$ and $score(q,e)$ i
 $\mathbbm{1}(e,t)$ is an indicator function that returns $1$ if $e$ is typed with $t$, otherwise returns $0$.
 
 \subsection{Type Centric (TC)}
-In this method by aggregating descriptions of entities of a specific type, a pseudo document is generated for that type and these documents will be use in ranking. This method is refer to as the early fusion design pattern for object retrieval in \cite{22hasibi}. The pseudo frequency of a word for a type is defined as 
+In this method by aggregating descriptions of entities of a specific type, a pseudo document is generated for that type and these documents will be use in ranking. This method is refer to as the early fusion design pattern for object retrieval in \cite{zhang2017design}. The pseudo frequency of a word for a type is defined as 
 $\tilde{f}(w,t) = \sum_{e}{f(w,e)\times w(e,t)}$, where $f(w,e)$ is the frequency of the term $w$ in (the description of) entity $e$ and $w(e,t)$, as before, denotes the entity-type association weight. The relevance score of a type for a given query $q$ is then calculated as the sum of the individual query term scores:
 \begin{equation}
 score_{TC}(t,q) = \sum_{i=1}^{|q|}{score_{LM}(q_i,\tilde{f})}
@@ -39,7 +39,7 @@ score_{TC}(t,q) = \sum_{i=1}^{|q|}{score_{LM}(q_i,\tilde{f})}
 where $score_{LM}(q_i,\tilde{f})$ is the retrieval score of pseudo document of $t$. We use the same parameter settings as in \ref{EC}.
 
 \subsection{Learning to Rank (LTR)}
-The entity and type centric models capture different aspect of the task and the learning to rank approach proposed in \cite{hasibiSig17} combined these two models in a single framework. In this approach three main feature categories have been used to combine several ranking signals as follows:
+The entity and type centric models capture different aspect of the task and the learning to rank approach proposed in \cite{Garigliotti:2017:TTI:3077136.3080659} combined these two models in a single framework. In this approach three main feature categories have been used to combine several ranking signals as follows:
 \begin{enumerate}
 	\item \textit{TC and EC features}: this category includes five features which measure the relevancy of query and type based on EC and TC approaches.
 	\item \textit{Knowledge base features}: this category includes four features which indicate the properties of the target type in taxonomy (e.g depth, number of children type, etc.).
@@ -48,11 +48,11 @@ The entity and type centric models capture different aspect of the task and the 
 They employed a random forest algorithm for regression as the supervised ranking method. their propose LTR model outperforms EC and TC methods by a remarkable margin but the main problem with this approach is that the features are related to the domain of problem and it can not be easily generalize to other domains such as e-commerce search engines.
 
 \section{Our Approach}
-Our motivation in this paper is to propose a method with minimal feature engineering effort to solve target type identification. For this task, we use the test collection introduce in \cite{hasibiSig17}. In this test collection, for a given query there is a pool of target entity types. for each target type in the pool, there is a label between zero (non-relevant) and seven (the most relevant) which indicate the relevance degree of the query and that target type. Similar to the propose LTR approach in \cite{hasibiSig17} we cast the type identification problem into regression problem i.e for a given pair of query and type the goal is to predict the relevancy score.
+Our motivation in this paper is to propose a method with minimal feature engineering effort to solve target type identification. For this task, we use the test collection introduce in \cite{Garigliotti:2017:TTI:3077136.3080659}. In this test collection, for a given query there is a pool of target entity types. for each target type in the pool, there is a label between zero (non-relevant) and seven (the most relevant) which indicate the relevance degree of the query and that target type. Similar to the propose LTR approach in \cite{Garigliotti:2017:TTI:3077136.3080659} we cast the type identification problem into regression problem i.e for a given pair of query and type the goal is to predict the relevancy score.
 
 Following the idea of TC and EC method introduce in \label{key} we defined two matrices i.e $I_{TC}$ and $I_{EC}$ that models word level similarities via word embeddings. 
 
-\boldsymbol{$I_{TC}:$} For a given query-type pair $(q,t)$, we first extract top-50 words representing type $t$. These words are selected according to the tf.idf score. We then build $I_{TC}$ matrix as follows. Each row of matrix indicates a query term (e.g $q_i$) of $q$ (in order of occurrence) and each column of the matrix indicates a representing word (e.g $w_j$) of that type (sorted by tf.idf score). The entry $I_{TC}[i,j] = cos(\vec{q_i}, \vec{w_j})$ where $\vec{q_i}$ and $\vec{w_j}$ indicates the pre-trained word embedding vectors of \cite{mikolovGoogle16Hasibi}.
+\boldsymbol{$I_{TC}:$} For a given query-type pair $(q,t)$, we first extract top-50 words representing type $t$. These words are selected according to the tf.idf score. We then build $I_{TC}$ matrix as follows. Each row of matrix indicates a query term (e.g $q_i$) of $q$ (in order of occurrence) and each column of the matrix indicates a representing word (e.g $w_j$) of that type (sorted by tf.idf score). The entry $I_{TC}[i,j] = cos(\vec{q_i}, \vec{w_j})$ where $\vec{q_i}$ and $\vec{w_j}$ indicates the pre-trained word embedding vectors of \cite{Mikolov:2013:DRW:2999792.2999959}.
 
 \boldsymbol{$I_{EC}:$} For a given query-type pair $(q,t)$, we first used a language retrieval model to retrieve top-20 ranked entities (i.e $e_1,\cdots, e_{20}$) for query $q$. $I_{EC}$ is made by concatenation of twenty matrices as $I_{EC} = [I_{E_1C},\cdots, I_{E_{20}C}]$ where $I_{E_iC}$ is a matrix indicating the relevancy of query $q$ and entity $e_i$ considering the type $t$. Each entry of matrix $I_{E_iC}$ is computed as follows:
 \begin{equation}
@@ -68,17 +68,22 @@ Where $q_m$ is the $m^{\text{\tiny th}}$ query term and $w_{i,n}$ ($1\leq n \leq
 In our first attempt to solve the problem we use two feedforward neural networks. the input of these networks are $I_{TC}$ and $I_{EC}$, respectively. the number of layers and neurons are indicated in table X.
 
 
-Similar to the translation, rotation and scale invariance of images in CNN, CNN is able to learn the local features from words or phrases in different places of text \cite{aclweb}. As a result, in our second attempt, we present a jointed convolutional neural network and feedforward (FF) architecture that takes the local features extracted by CNN as input to FF for target type identification problem. We try this architecture twice with $I_{EC}$ and $I_{TC}$ as the inputs of the CNN models, respectively. The detail of each network is indicated in table X.
+Similar to the translation, rotation and scale invariance of images in CNN, CNN is able to learn the local features from words or phrases in different places of text \cite{wang2016combination}. As a result, in our second attempt, we present a jointed convolutional neural network and feedforward (FF) architecture that takes the local features extracted by CNN as input to FF for target type identification problem. We try this architecture twice with $I_{EC}$ and $I_{TC}$ as the inputs of the CNN models, respectively. The detail of each network is indicated in table X.
 
-Finally, following the idea of combining entity centric and type centric models\cite{cikmBalog,SigHasibi}, we propose the architecture represented in \textbf{fig.X}. This architecture is the combination of the above mentioned CNN+FF networks.
+Finally, following the idea of combining entity centric and type centric models\cite{Balog:2011:QME:2037661.2037667,Garigliotti:2017:TTI:3077136.3080659}, we propose the architecture represented in \textbf{fig.X}. This architecture is the combination of the above mentioned CNN+FF networks.
 
+\begin{figure*}
+	\includegraphics[width=\textwidth]{leaders_in_cropped.pdf}
+	\includegraphics[width=\textwidth]{leaders_conv1_cropped.pdf}
+	\caption{This is a figure caption}
+\end{figure*}
 
 \section{Model Implementation Details}
 This section describes the configuration of the FF and CNN+FF Models.
 
-\textbf{Model Training} is performed using 5 fold\textit{nested cross-validation} \cite{Nested } where model hyperparameters are selected for each test fold based on standard CV experiments on the training folds. The hyperparameters of the models are indicated in table x.
+\textbf{Model Training} is performed using 5 fold\textit{nested cross-validation} \cite{cawley2010over} where model hyperparameters are selected for each test fold based on standard CV experiments on the training folds. The hyperparameters of the models are indicated in table x.
 
-\textbf{Model Optimization} use the adam optimizer with batch size 128, learning rate 0.0001 and $\epsilon$ X. We implemented our model using Keras \cite{kerasCite}.
+\textbf{Model Optimization} use the adam optimizer with batch size 128, learning rate 0.0001. We implemented our model using Keras \cite{chollet2015keras}.
 
 \textbf{Model Structure} model structure of CNN+FF is depicted in fig.X. The feedforward model of type centric approach is a three-layer network with [1000, 1000, 5000] neurons. The activation function is relu. the dropout parameter is selected to be 0.3. The feedforward model of entity centric approach is a one-layer network with 1000 neurons. The activation function is relu. the dropout parameter is selected to be 0.
 
@@ -90,11 +95,6 @@ The interesting observation here is that the NDCG@1 of CNN+FF model (in hybrid s
 
 In order to better analyze the behavior of CNN network, we visualize the input of $I_{TC}$ and the output of first convolution layer for the query \textit{"Give me a list of all trumpet players that were bandleaders."} and type \textit{"MusicalArtist"} in fig1.a and fig1.b respectively. As indicated in these figures the horizontal axis indicates top-50 words representing \textit{MusicalArtist} type sorted by tf.idf from left to right. in this figure, lighter entries indicate the larger value of similarity between a query term and the corresponding representing term. By comparing the output and output matrices, we find that the CNN model is able to remove noises i.e non-relevant terms to that specific type. for example the weights associated with query terms "\textit{give}" and "\textit{me}" are reduced significantly. According to this observation, CNN network outperforms the FF because it can extract local features (by local we means the feature associated with the context of query) while the FF network only uses the word2vec embedding of each word and that not consider it's context in the query. our proposed model is an economic model because we don't use any complicated features, but it can capture the relationship between the query and it's target type effectively.     
 
-\begin{figure*}
-	\includegraphics[width=\textwidth]{leaders_in_cropped.pdf}
-	\includegraphics[width=\textwidth]{leaders_conv1_cropped.pdf}
-	\caption{This is a figure caption}
-\end{figure*}
 
 
 
@@ -103,6 +103,8 @@ In order to better analyze the behavior of CNN network, we visualize the input o
 % Please add the following required packages to your document preamble:
 % \usepackage{multirow}
 \begin{table}[]
+	\caption{Target type detection performance.}
+	\scalebox{0.7}{
 	\begin{tabular}{c|c|c|c}
 		
 		Feature Group                               & Retrieval model                & NDCG@1   & NDCG@5   \\ \hline
@@ -115,5 +117,6 @@ In order to better analyze the behavior of CNN network, we visualize the input o
 		Entity + Type                               & CNN + FF                       & 0.4575   & 0.5994   \\ \hline
 		Entity + Type + Knowledge Base + Type Label & LTR                            & 0.4842   & 0.6355   \\ \hline
 	\end{tabular}
+	}
 \end{table}
 
